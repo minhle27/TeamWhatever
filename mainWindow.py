@@ -3,9 +3,6 @@ from sys import exit
 
 pygame.init()
 screen = pygame.display.set_mode((1920,1080))
-display_info = pygame.display.Info()
-pygame.display.set_mode((display_info.current_w, display_info.current_h))
-
 pygame.display.set_caption('Scary Game')
 clock = pygame.time.Clock()
 
@@ -15,8 +12,8 @@ start_rect = start_surface.get_rect(midbottom = (960,900))
 
 camp_surf = pygame.image.load('Graphics/Campsite.png').convert()
 destroyed_surf = pygame.image.load('Graphics/Campsite(2).png').convert()
-
-
+garden_surf = pygame.image.load('Graphics/Garden.png').convert()
+garden_surf = pygame.transform.scale(garden_surf, (1920,1080))
 
 player_surf = pygame.image.load('Graphics/characterV2.png').convert_alpha()
 player_rect = player_surf.get_rect(midbottom = (960,1000))
@@ -33,26 +30,40 @@ while True:
     player_speed = 5
     
     if game_active:
-        if stage == 1:
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_w] and player_rect.top > 0:
-                player_rect.y -= player_speed
-            if keys[pygame.K_s] and player_rect.bottom < 1080:
-                player_rect.y += player_speed
-            if keys[pygame.K_a] and player_rect.left > 0:
-                player_rect.x -= player_speed
-            if keys[pygame.K_d] and player_rect.right < 1920:
-                player_rect.x += player_speed
+        
+        keys = pygame.key.get_pressed()
 
+        if keys[pygame.K_w] and player_rect.top > 0:
+            player_rect.y -= player_speed
+        if keys[pygame.K_s] and player_rect.bottom < 1080:
+            player_rect.y += player_speed
+        if keys[pygame.K_a] and player_rect.left > 0:
+            player_rect.x -= player_speed
+        if keys[pygame.K_d] and player_rect.right < 1920:
+            player_rect.x += player_speed
+
+        
+        
+        if stage == 1:
+            
             #print(player_rect.center)
             #900x 200y
-            
-            if player_rect.collidepoint(900,200):
-                stage = 2
-
 
             screen.blit(destroyed_surf,(0,0))
             screen.blit(player_surf,player_rect)
+            
+            if player_rect.collidepoint(900,200):
+                stage = 2
+                player_rect.bottomleft = (1200, 1080)
+
+
+            
+
+        if stage == 2:
+
+            screen.blit(garden_surf,(0,0))
+            screen.blit(player_surf,player_rect)
+
     
     else:
         if stage == 0:
