@@ -2,7 +2,10 @@ import pygame
 from sys import exit
 
 pygame.init()
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1920,1080))
+display_info = pygame.display.Info()
+pygame.display.set_mode((display_info.current_w, display_info.current_h))
+
 pygame.display.set_caption('Scary Game')
 clock = pygame.time.Clock()
 
